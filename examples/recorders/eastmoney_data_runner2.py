@@ -21,19 +21,19 @@ def run():
         email_action = EmailInformer()
 
         try:
-            # DividendFinancing.record_data(provider='eastmoney')
-            # HolderTrading.record_data(provider='eastmoney')
-            # ManagerTrading.record_data(provider='eastmoney')
+            DividendFinancing.record_data(provider='eastmoney')
+            HolderTrading.record_data(provider='eastmoney')
+            ManagerTrading.record_data(provider='eastmoney')
             TopTenHolder.record_data(provider='eastmoney')
             TopTenTradableHolder.record_data(provider='eastmoney')
 
-            email_action.send_message("5533061@qq.com", 'eastmoney runner2 finished', '')
+            email_action.send_message("qguduemc@163.com", 'eastmoney runner2 finished', '')
             break
         except Exception as e:
             msg = f'eastmoney runner2 error:{e}'
             logger.exception(msg)
 
-            email_action.send_message("5533061@qq.com", 'eastmoney runner2 error', msg)
+            email_action.send_message("qguduemc@163.com", 'eastmoney runner2 error', msg)
             time.sleep(60)
 
 

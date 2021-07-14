@@ -77,7 +77,7 @@ def report_vol_up_250():
                     for stock in stocks:
                         eastmoneypy.add_to_group(stock.code, group_name='tech')
                 except Exception as e:
-                    email_action.send_message("5533061@qq.com", f'report_vol_up_250 error',
+                    email_action.send_message("qguduemc@163.com", f'report_vol_up_250 error',
                                               'report_vol_up_250 error:{}'.format(e))
 
                 info = [f'{stock.name}({stock.code})' for stock in stocks]
@@ -93,7 +93,7 @@ def report_vol_up_250():
             time.sleep(60 * 3)
             error_count = error_count + 1
             if error_count == 10:
-                email_action.send_message("5533061@qq.com", f'report_vol_up_250 error',
+                email_action.send_message("qguduemc@163.com", f'report_vol_up_250 error',
                                           'report_vol_up_250 error:{}'.format(e))
 
 

@@ -26,13 +26,13 @@ def record_fund():
             # 股票周线后复权数据
             Stock1wkHfqKdata.record_data(provider='joinquant', sleeping_time=0)
 
-            email_action.send_message("5533061@qq.com", 'joinquant record fund finished', '')
+            email_action.send_message("qguduemc@163.com", 'joinquant record fund finished', '')
             break
         except Exception as e:
             msg = f'joinquant record fund error:{e}'
             logger.exception(msg)
 
-            email_action.send_message("5533061@qq.com", 'joinquant record fund error', msg)
+            email_action.send_message("qguduemc@163.com", 'joinquant record fund error', msg)
             time.sleep(60)
 
 
@@ -45,13 +45,13 @@ def record_valuation():
         try:
             StockValuation.record_data(provider='joinquant', sleeping_time=0, day_data=True)
 
-            email_action.send_message("5533061@qq.com", 'joinquant record valuation finished', '')
+            email_action.send_message("qguduemc@163.com", 'joinquant record valuation finished', '')
             break
         except Exception as e:
             msg = f'joinquant record valuation error:{e}'
             logger.exception(msg)
 
-            email_action.send_message("5533061@qq.com", 'joinquant record valuation error', msg)
+            email_action.send_message("qguduemc@163.com", 'joinquant record valuation error', msg)
             time.sleep(60)
 
 

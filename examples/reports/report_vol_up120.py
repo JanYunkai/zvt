@@ -8,10 +8,12 @@ from apscheduler.schedulers.background import BackgroundScheduler
 
 from zvt import init_log
 from zvt.contract.api import get_entities
-from zvt.domain import Stock, StockValuation, Stock1dHfqKdata
+from zvt.domain import Stock1dKdata, StockTradeDay, Stock1dHfqKdata,StockValuation, Stock
 from zvt.factors import VolumeUpMaFactor
 from zvt.factors.target_selector import TargetSelector
 from zvt.informer.informer import EmailInformer
+
+
 
 logger = logging.getLogger(__name__)
 
@@ -26,8 +28,8 @@ def report_vol_up_120():
 
         try:
             # 抓取k线数据
-            # StockTradeDay.record_data(provider='joinquant')
-            # Stock1dKdata.record_data(provider='joinquant')
+            # StockTradeDay.record_data(provider='joinquant', sleeping_time=0.5)
+            # Stock1dKdata.record_data(provider='joinquant', sleeping_time=0.5)
 
             latest_day: Stock1dHfqKdata = Stock1dHfqKdata.query_data(order=Stock1dHfqKdata.timestamp.desc(), limit=1,
                                                                      return_type='domain')
@@ -75,7 +77,7 @@ def report_vol_up_120():
                     for stock in stocks:
                         eastmoneypy.add_to_group(stock.code, group_name='tech')
                 except Exception as e:
-                    email_action.send_message("5533061@qq.com", f'report_vol_up_120 error',
+                    email_action.send_message("qguduemc@163.com", f'report_vol_up_120 error',
                                               'report_vol_up_120 error:{}'.format(e))
 
                 info = [f'{stock.name}({stock.code})' for stock in stocks]
@@ -83,7 +85,7 @@ def report_vol_up_120():
 
             logger.info(msg)
 
-            email_action.send_message('5533061@qq.com', f'{target_date} 改进版放量突破半年线选股结果', msg)
+            email_action.send_message('qguduemc@163.com', f'{target_date} 改进版放量突破半年线选股结果', msg)
 
             break
         except Exception as e:
@@ -91,7 +93,7 @@ def report_vol_up_120():
             time.sleep(60 * 3)
             error_count = error_count + 1
             if error_count == 10:
-                email_action.send_message("5533061@qq.com", f'report_vol_up_120 error',
+                email_action.send_message("qguduemc@163.com", f'report_vol_up_120 error',
                                           'report_vol_up_120 error:{}'.format(e))
 
 

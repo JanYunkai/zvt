@@ -55,8 +55,7 @@ if __name__ == '__main__':
         # 成交量
         vol_df = get_top_volume_entities(entity_type='stock',
                                          start_timestamp=next_date(start_timestamp, -50),
-                                         end_timestamp=start_timestamp,
-                                         pct=0.3)
+                                         end_timestamp=start_timestamp, pct=0.3)
         # 机构重仓
         ii_df = get_top_fund_holding_stocks(timestamp=start_timestamp, pct=0.3, by='trading')
 

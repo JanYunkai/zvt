@@ -14,6 +14,8 @@ from zvt.domain import Stock
 from zvt.factors.target_selector import TargetSelector
 from zvt.informer.informer import EmailInformer
 
+from zvt.domain import Stock, StockTradeDay, FinanceFactor,BalanceSheet
+
 logger = logging.getLogger(__name__)
 
 sched = BackgroundScheduler()
@@ -27,10 +29,11 @@ def report_core_company():
         email_action = EmailInformer()
 
         try:
-            # StockTradeDay.record_data(provider='joinquant')
-            # Stock.record_data(provider='joinquant')
-            # FinanceFactor.record_data(provider='eastmoney')
-            # BalanceSheet.record_data(provider='eastmoney')
+            # StockTradeDay.record_data(provider='joinquant', sleeping_time=0.2)
+            # Stock.record_data(provider='joinquant', sleeping_time= 0.2)
+            # FinanceFactor.record_data(provider='eastmoney', sleeping_time= 0.2)
+            BalanceSheet.record_data(provider='eastmoney', sleeping_time = 0.2)
+            logger.info("over")
 
             target_date = to_time_str(now_pd_timestamp())
 
@@ -52,7 +55,7 @@ def report_core_company():
                     for stock in stocks:
                         eastmoneypy.add_to_group(stock.code, group_name='core')
                 except Exception as e:
-                    email_action.send_message("5533061@qq.com", f'report_core_company error',
+                    email_action.send_message("qguduemc@163.com", f'report_core_company error',
                                               'report_core_company error:{}'.format(e))
 
                 info = [f'{stock.name}({stock.code})' for stock in stocks]
@@ -69,7 +72,7 @@ def report_core_company():
             time.sleep(60 * 3)
             error_count = error_count + 1
             if error_count == 10:
-                email_action.send_message("5533061@qq.com", f'report_core_company error',
+                email_action.send_message("qguduemc@163.com", f'report_core_company error',
                                           'report_core_company error:{}'.format(e))
 
 
