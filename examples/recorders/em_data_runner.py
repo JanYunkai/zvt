@@ -20,8 +20,8 @@ def run():
         email_action = EmailInformer()
 
         try:
-            StockInstitutionalInvestorHolder.record_data(provider='em')
-            StockTopTenFreeHolder.record_data(provider='em')
+            StockInstitutionalInvestorHolder.record_data(provider='em' ,sleeping_time=0.2)
+            StockTopTenFreeHolder.record_data(provider='em' ,sleeping_time=0.2)
 
             email_action.send_message("5533061@qq.com", 'em runner finished', '')
             break

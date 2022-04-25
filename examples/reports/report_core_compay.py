@@ -27,10 +27,11 @@ def report_core_company():
         email_action = EmailInformer()
 
         try:
-            # StockTradeDay.record_data(provider='joinquant')
-            # Stock.record_data(provider='joinquant')
-            # FinanceFactor.record_data(provider='eastmoney')
-            # BalanceSheet.record_data(provider='eastmoney')
+            # StockTradeDay.record_data(provider='joinquant', sleeping_time=0.2)
+            # Stock.record_data(provider='joinquant', sleeping_time= 0.2)
+            # FinanceFactor.record_data(provider='eastmoney', sleeping_time= 0.2)
+            # BalanceSheet.record_data(provider='eastmoney', sleeping_time = 0.2)
+            logger.info("over")
 
             target_date = to_time_str(now_pd_timestamp())
 

@@ -21,11 +21,11 @@ def run():
         email_action = EmailInformer()
 
         try:
-            # DividendFinancing.record_data(provider='eastmoney')
-            # HolderTrading.record_data(provider='eastmoney')
-            # ManagerTrading.record_data(provider='eastmoney')
-            TopTenHolder.record_data(provider='eastmoney')
-            TopTenTradableHolder.record_data(provider='eastmoney')
+            DividendFinancing.record_data(provider='eastmoney' ,sleeping_time=0.2)
+            HolderTrading.record_data(provider='eastmoney' ,sleeping_time=0.2)
+            ManagerTrading.record_data(provider='eastmoney' ,sleeping_time=0.2)
+            TopTenHolder.record_data(provider='eastmoney',sleeping_time=0.2)
+            TopTenTradableHolder.record_data(provider='eastmoney' ,sleeping_time=0.2)
 
             email_action.send_message("5533061@qq.com", 'eastmoney runner2 finished', '')
             break
