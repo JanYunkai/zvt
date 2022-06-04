@@ -24,7 +24,7 @@ if ! which python > /dev/null; then
 fi
 
 pip_opt=''
-#pip_opt='-i http://pypi.douban.com/simple --trusted-host pypi.douban.com'
+#pip_opt='-i https://pypi.tuna.tsinghua.edu.cn/simple --trusted-host pypi.tuna.tsinghua.edu.cn'
 
 if ! which virtualenv > /dev/null; then
    echo -e "virtualenv not found! Install? (y/n) \c"
@@ -41,7 +41,7 @@ fi
 
 source $BASEDIR/ve/bin/activate
 cd $BASEDIR
-export PYTHONPATH=$PYTHONPATH:.
+export PYTHONPATH=$PYTHONPATH:./src
 
 if [ ! -f "$BASEDIR/ve/updated" -o $BASEDIR/requirements.txt -nt $BASEDIR/ve/updated ]; then
     pip install -r $BASEDIR/requirements.txt $pip_opt
