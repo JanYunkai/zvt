@@ -23,13 +23,13 @@ def run():
             StockInstitutionalInvestorHolder.record_data(provider='em' ,sleeping_time=0.2)
             StockTopTenFreeHolder.record_data(provider='em' ,sleeping_time=0.2)
 
-            email_action.send_message("5533061@qq.com", 'em runner finished', '')
+            email_action.send_message("qguduemc@163.com", 'em runner finished', '')
             break
         except Exception as e:
             msg = f'eastmoney runner1 error:{e}'
             logger.exception(msg)
 
-            email_action.send_message("5533061@qq.com", 'em runner error', msg)
+            email_action.send_message("qguduemc@163.com", 'em runner error', msg)
             time.sleep(60)
 
 

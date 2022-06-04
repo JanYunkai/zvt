@@ -29,8 +29,8 @@ def report_core_company():
         try:
             # StockTradeDay.record_data(provider='joinquant', sleeping_time=0.2)
             # Stock.record_data(provider='joinquant', sleeping_time= 0.2)
-            # FinanceFactor.record_data(provider='eastmoney', sleeping_time= 0.2)
-            # BalanceSheet.record_data(provider='eastmoney', sleeping_time = 0.2)
+            FinanceFactor.record_data(provider='eastmoney', sleeping_time= 0.2)
+            BalanceSheet.record_data(provider='eastmoney', sleeping_time = 0.2)
             logger.info("over")
 
             target_date = to_time_str(now_pd_timestamp())
@@ -49,6 +49,7 @@ def report_core_company():
                     codes = [stock.code for stock in stocks]
                     add_to_eastmoney(codes=codes, entity_type="stock", group="core")
                 except Exception as e:
+<<<<<<< Updated upstream
                     email_action.send_message(
                         zvt_config["email_username"],
                         f"report_core_company error",
@@ -57,6 +58,13 @@ def report_core_company():
 
                 infos = stocks_with_info(stocks)
                 msg = "\n".join(infos)
+=======
+                    email_action.send_message("qguduemc@163.com", f'report_core_company error',
+                                              'report_core_company error:{}'.format(e))
+
+                info = [f'{stock.name}({stock.code})' for stock in stocks]
+                msg = ' '.join(info)
+>>>>>>> Stashed changes
             else:
                 msg = "no targets"
 
@@ -69,9 +77,14 @@ def report_core_company():
             time.sleep(60 * 3)
             error_count = error_count + 1
             if error_count == 10:
+<<<<<<< Updated upstream
                 email_action.send_message(
                     zvt_config["email_username"], f"report_core_company error", "report_core_company error:{}".format(e)
                 )
+=======
+                email_action.send_message("qguduemc@163.com", f'report_core_company error',
+                                          'report_core_company error:{}'.format(e))
+>>>>>>> Stashed changes
 
 
 if __name__ == "__main__":
