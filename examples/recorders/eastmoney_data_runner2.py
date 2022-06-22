@@ -27,13 +27,13 @@ def run():
             TopTenHolder.record_data(provider='eastmoney',sleeping_time=0.2)
             TopTenTradableHolder.record_data(provider='eastmoney' ,sleeping_time=0.2)
 
-            email_action.send_message("5533061@qq.com", 'eastmoney runner2 finished', '')
+            email_action.send_message('eastmoney runner2 finished', '')
             break
         except Exception as e:
             msg = f'eastmoney runner2 error:{e}'
             logger.exception(msg)
 
-            email_action.send_message("5533061@qq.com", 'eastmoney runner2 error', msg)
+            email_action.send_message('eastmoney runner2 error', msg)
             time.sleep(60)
 
 

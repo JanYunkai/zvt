@@ -67,7 +67,9 @@ pd.set_option("mode.chained_assignment", "raise")
 
 zvt_env = {}
 
-zvt_config = {}
+zvt_config = {
+    
+}
 
 _plugins = {}
 

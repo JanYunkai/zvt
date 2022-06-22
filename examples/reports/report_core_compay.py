@@ -50,7 +50,6 @@ def report_core_company():
                     add_to_eastmoney(codes=codes, entity_type="stock", group="core")
                 except Exception as e:
                     email_action.send_message(
-                        zvt_config["email_username"],
                         f"report_core_company error",
                         "report_core_company error:{}".format(e),
                     )
@@ -62,7 +61,7 @@ def report_core_company():
 
             logger.info(msg)
 
-            email_action.send_message(get_subscriber_emails(), f"{to_time_str(target_date)} 核心资产选股结果", msg)
+            email_action.send_message(f"{to_time_str(target_date)} 核心资产选股结果", msg, to_user = get_subscriber_emails())
             break
         except Exception as e:
             logger.exception("report_core_company error:{}".format(e))
@@ -70,7 +69,7 @@ def report_core_company():
             error_count = error_count + 1
             if error_count == 10:
                 email_action.send_message(
-                    zvt_config["email_username"], f"report_core_company error", "report_core_company error:{}".format(e)
+                    f"report_core_company error", "report_core_company error:{}".format(e)
                 )
 
 

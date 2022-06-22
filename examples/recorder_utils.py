@@ -30,7 +30,7 @@ def run_data_recorder(
             )
             msg = f"record {domain.__name__} success"
             logger.info(msg)
-            email_action.send_message(zvt_config["email_username"], msg, msg)
+            email_action.send_message(msg, msg)
             break
         except Exception as e:
             logger.exception("report error:{}".format(e))

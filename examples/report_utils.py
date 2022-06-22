@@ -31,7 +31,6 @@ def inform(
                 add_to_eastmoney(codes=codes, entity_type=entity_type, group=em_group, over_write=em_group_over_write)
             except Exception as e:
                 action.send_message(
-                    zvt_config["email_username"],
                     f"{target_date} {title} error",
                     f"{target_date} {title} error: {e}",
                 )
@@ -39,7 +38,7 @@ def inform(
         infos = [f"{entity.name}({entity.code})" for entity in entities]
         msg = "\n".join(infos) + "\n"
     logger.info(msg)
-    action.send_message(zvt_config["email_username"], f"{target_date} {title}", msg)
+    action.send_message(f"{target_date} {title}", msg)
 
 
 def report_targets(
@@ -188,7 +187,7 @@ def report_top_entities(
         if not entity_ids:
             msg = f"{entity_type} no entity_ids listed one year"
             logger.error(msg)
-            email_action.send_message(zvt_config["email_username"], "report_top_stats error", msg)
+            email_action.send_message("report_top_stats error", msg)
             return
         filter_entity_ids = entity_ids
 
@@ -210,7 +209,7 @@ def report_top_entities(
     if not filter_entity_ids:
         msg = f"{entity_type} no entity_ids selected"
         logger.error(msg)
-        email_action.send_message(zvt_config["email_username"], "report_top_stats error", msg)
+        email_action.send_message("report_top_stats error", msg)
         return
 
     logger.info(f"{entity_type} filter_entity_ids size: {len(filter_entity_ids)}")

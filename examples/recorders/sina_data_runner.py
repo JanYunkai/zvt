@@ -22,13 +22,13 @@ def record_block():
             Block.record_data(provider='sina' ,sleeping_time=0.2)
             BlockStock.record_data(provider='sina' ,sleeping_time=0.2)
 
-            email_action.send_message("5533061@qq.com", 'sina block finished', '')
+            email_action.send_message('sina block finished', '')
             break
         except Exception as e:
             msg = f'sina block error:{e}'
             logger.exception(msg)
 
-            email_action.send_message("5533061@qq.com", 'sina block error', msg)
+            email_action.send_message('sina block error', msg)
             time.sleep(60)
 
 
@@ -40,13 +40,13 @@ def record_money_flow():
         try:
             BlockMoneyFlow.record_data(provider='sina' ,sleeping_time=0.2)
 
-            email_action.send_message("5533061@qq.com", 'sina money flow finished', '')
+            email_action.send_message('sina money flow finished', '')
             break
         except Exception as e:
             msg = f'sina money flow error:{e}'
             logger.exception(msg)
 
-            email_action.send_message("5533061@qq.com", 'sina money flow error', msg)
+            email_action.send_message('sina money flow error', msg)
             time.sleep(60)
 
 

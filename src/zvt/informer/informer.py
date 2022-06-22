@@ -47,6 +47,7 @@ class EmailInformer(Informer):
             msg["To"] = ", ".join(to_user)
         else:
             msg["To"] = to_user
+            
         msg["Message-id"] = email.utils.make_msgid()
         msg["Date"] = email.utils.formatdate()
 
@@ -58,7 +59,9 @@ class EmailInformer(Informer):
         except Exception as e:
             self.logger.exception("send email failed", e)
 
-    def send_message(self, to_user, title, body, sub_size=20, with_sender=True, **kwargs):
+    def send_message(self, title, body, to_user=None, sub_size=20, with_sender=True, **kwargs):
+        if not to_user:
+            to_user = zvt_config["email_username"]
         if type(to_user) is list and sub_size:
             size = len(to_user)
             if size >= sub_size:
@@ -145,11 +148,11 @@ class WechatInformer(Informer):
 
 
 if __name__ == "__main__":
-    email_action = EmailInformer()
-    email_action.send_message(["5533061@qq.com", "2315983623@qq.com"], "helo", "just a test", sub_size=20)
+    # email_action = EmailInformer()
+    # email_action.send_message(["5533061@qq.com", "2315983623@qq.com"], "helo", "just a test", sub_size=20)
 
-    # weixin_action = WechatInformer()
-    # weixin_action.send_price_notification(to_user='oRvNP0XIb9G3g6a-2fAX9RHX5--Q', security_name='BTC/USDT',
-    #                                       current_price=1000, change_pct='0.5%')
+    weixin_action = WechatInformer()
+    weixin_action.send_price_notification(to_user='oRvNP0XIb9G3g6a-2fAX9RHX5--Q', security_name='BTC/USDT',
+                                          current_price=1000, change_pct='0.5%')
 # the __all__ is generated
 __all__ = ["Informer", "EmailInformer", "WechatInformer"]

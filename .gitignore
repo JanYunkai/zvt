@@ -107,3 +107,6 @@ node_modules/
 *running.ipynb
 
 .DS_Store
+
+setting.json
+subscriber_emails.json
