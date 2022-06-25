@@ -3,6 +3,10 @@ import logging
 
 from apscheduler.schedulers.background import BackgroundScheduler
 from sqlalchemy import or_, and_
+import os
+import sys
+
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../../src")))
 
 from examples.recorder_utils import run_data_recorder
 from examples.report_utils import inform

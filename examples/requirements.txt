@@ -1,4 +1,7 @@
-apscheduler >= 3.4.0
+apscheduler >= 3.9.1
 eastmoneypy == 0.1.1
-tabulate>=0.8.8
+tabulate>=0.8.10
 ta
+pytz
+certifi
+openpyxl
