@@ -38,7 +38,6 @@ def run_data_recorder(
             retry_times = retry_times - 1
             if retry_times == 0:
                 email_action.send_message(
-                    zvt_config["email_username"],
                     f"record {domain.__name__} error",
                     f"record {domain.__name__} error: {e}",
                 )

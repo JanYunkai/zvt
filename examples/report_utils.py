@@ -13,6 +13,7 @@ from zvt.contract.factor import Factor
 from zvt.factors import TargetSelector, SelectMode
 from zvt.informer import EmailInformer
 from zvt.utils import next_date
+from examples.reports import get_subscriber_emails
 
 logger = logging.getLogger("__name__")
 
@@ -38,7 +39,7 @@ def inform(
         infos = [f"{entity.name}({entity.code})" for entity in entities]
         msg = "\n".join(infos) + "\n"
     logger.info(msg)
-    action.send_message(f"{target_date} {title}", msg)
+    action.send_message(f"{target_date} {title}", msg, to_user=get_subscriber_emails())
 
 
 def report_targets(
