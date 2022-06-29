@@ -10,6 +10,8 @@ from zvt.contract.recorder import Recorder
 from zvt.domain import Stock, StockDetail
 from zvt.recorders.consts import DEFAULT_SH_HEADER, DEFAULT_SZ_HEADER
 from zvt.utils.time_utils import to_pd_timestamp
+from zvt import zvt_config
+import random
 
 
 class ExchangeStockMetaRecorder(Recorder):
@@ -17,22 +19,25 @@ class ExchangeStockMetaRecorder(Recorder):
     provider = "exchange"
 
     original_page_url = "http://www.sse.com.cn/assortment/stock/list/share/"
+    proxies = {}
+    if zvt_config['proxies']:
+        proxies =  random.choice(zvt_config['proxies'])
 
     def run(self):
         url = (
             "http://query.sse.com.cn/security/stock/downloadStockListFile.do?csrcCode=&stockCode=&areaName=&stockType=1"
         )
-        resp = requests.get(url, headers=DEFAULT_SH_HEADER)
+        resp = requests.get(url, headers=DEFAULT_SH_HEADER, proxies = self.proxies, verify=False)
         self.download_stock_list(response=resp, exchange="sh")
 
         url = (
             "http://query.sse.com.cn/security/stock/downloadStockListFile.do?csrcCode=&stockCode=&areaName=&stockType=8"
         )
-        resp = requests.get(url, headers=DEFAULT_SH_HEADER)
+        resp = requests.get(url, headers=DEFAULT_SH_HEADER, proxies = self.proxies, verify=False)
         self.download_stock_list(response=resp, exchange="sh")
 
         url = "http://www.szse.cn/api/report/ShowReport?SHOWTYPE=xlsx&CATALOGID=1110&TABKEY=tab1&random=0.20932135244582617"
-        resp = requests.get(url, headers=DEFAULT_SZ_HEADER)
+        resp = requests.get(url, headers=DEFAULT_SZ_HEADER, proxies = self.proxies, verify=False)
         self.download_stock_list(response=resp, exchange="sz")
 
     def download_stock_list(self, response, exchange):
@@ -50,7 +55,10 @@ class ExchangeStockMetaRecorder(Recorder):
                 df = df.loc[:, ["公司代码", "公司简称", "上市日期"]]
 
         elif exchange == "sz":
-            df = pd.read_excel(io.BytesIO(response.content), sheet_name="A股列表", dtype=str, parse_dates=["A股上市日期"])
+            try:
+                df = pd.read_excel(io.BytesIO(response.content), sheet_name="A股列表", dtype=str, parse_dates=["A股上市日期"])
+            except BadZipFile as e:
+                raise e
             if df is not None:
                 df = df.loc[:, ["A股代码", "A股简称", "A股上市日期"]]
 

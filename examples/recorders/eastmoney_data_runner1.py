@@ -25,12 +25,12 @@ def run():
         email_action = EmailInformer()
 
         try:
-            Stock.record_data(provider='eastmoney' , sleeping_time=1)
-            StockDetail.record_data(provider='eastmoney', sleeping_time=1)
-            FinanceFactor.record_data(provider='eastmoney', sleeping_time=1)
-            BalanceSheet.record_data(provider='eastmoney', sleeping_time=1)
-            IncomeStatement.record_data(provider='eastmoney', sleeping_time=1)
-            CashFlowStatement.record_data(provider='eastmoney', sleeping_time=1)
+            Stock.record_data(provider='eastmoney')
+            StockDetail.record_data(provider='eastmoney')
+            FinanceFactor.record_data(provider='eastmoney')
+            BalanceSheet.record_data(provider='eastmoney')
+            IncomeStatement.record_data(provider='eastmoney')
+            CashFlowStatement.record_data(provider='eastmoney')
 
             email_action.send_message('eastmoney runner1 finished', '')
             break

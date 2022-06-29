@@ -3,7 +3,12 @@ import logging
 
 from apscheduler.schedulers.background import BackgroundScheduler
 
-from examples.report_utils import report_targets
+import os
+import sys
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../../src")))
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../../examples")))
+
+from report_utils import report_targets
 from zvt import init_log
 from zvt.api.kdata import get_latest_kdata_date
 from zvt.api.selector import get_mini_and_small_stock, get_middle_and_big_stock

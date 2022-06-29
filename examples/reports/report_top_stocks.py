@@ -3,7 +3,12 @@ import logging
 
 from apscheduler.schedulers.background import BackgroundScheduler
 
-from examples.report_utils import report_top_entities
+import os
+import sys
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../../src")))
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../../examples")))
+
+from report_utils import report_top_entities
 from zvt import init_log
 from zvt.api import TopType
 

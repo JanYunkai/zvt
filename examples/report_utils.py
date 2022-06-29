@@ -3,7 +3,7 @@ import logging
 import time
 from typing import Type
 
-from examples.utils import add_to_eastmoney
+from utils import add_to_eastmoney
 from zvt import zvt_config
 from zvt.api import get_top_volume_entities, get_top_performance_entities, TopType
 from zvt.api.kdata import get_latest_kdata_date, get_kdata_schema, default_adjust_type
@@ -13,7 +13,7 @@ from zvt.contract.factor import Factor
 from zvt.factors import TargetSelector, SelectMode
 from zvt.informer import EmailInformer
 from zvt.utils import next_date
-from examples.reports import get_subscriber_emails
+from reports import get_subscriber_emails
 
 logger = logging.getLogger("__name__")
 
