@@ -9,6 +9,9 @@ MonetaryBase = declarative_base()
 
 
 class TreasuryYield(MonetaryBase, Mixin):
+    """
+    国债收益率
+    """
     __tablename__ = "treasury_yield"
 
     code = Column(String(length=32))

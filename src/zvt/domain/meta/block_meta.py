@@ -12,6 +12,9 @@ BlockMetaBase = declarative_base()
 #: 板块
 @register_entity(entity_type="block")
 class Block(BlockMetaBase, Portfolio):
+    """
+    板块
+    """
     __tablename__ = "block"
 
     #: 板块类型，行业(industry),概念(concept)

@@ -12,6 +12,9 @@ IndexMetaBase = declarative_base()
 #: 指数
 @register_entity(entity_type="index")
 class Index(IndexMetaBase, Portfolio):
+    """
+    指数
+    """
     __tablename__ = "index"
 
     #: 发布商
@@ -24,6 +27,9 @@ class Index(IndexMetaBase, Portfolio):
 
 
 class IndexStock(IndexMetaBase, PortfolioStockHistory):
+    """
+    股票指数
+    """
     __tablename__ = "index_stock"
 
 

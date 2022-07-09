@@ -9,6 +9,9 @@ FinanceBase = declarative_base()
 
 
 class BalanceSheet(FinanceBase, Mixin):
+    """
+    资产负载表
+    """
     @classmethod
     def important_cols(cls):
         return [
@@ -458,6 +461,9 @@ class BalanceSheet(FinanceBase, Mixin):
 
 
 class IncomeStatement(FinanceBase, Mixin):
+    """
+    收益表
+    """
     @classmethod
     def important_cols(cls):
         return [
@@ -627,6 +633,9 @@ class IncomeStatement(FinanceBase, Mixin):
 
 
 class CashFlowStatement(FinanceBase, Mixin):
+    """
+    收益表
+    """
     @classmethod
     def important_cols(cls):
         return ["net_op_cash_flows", "net_investing_cash_flows", "net_financing_cash_flows", "cash"]
@@ -826,9 +835,10 @@ class CashFlowStatement(FinanceBase, Mixin):
 
 
 #: 主要财务指标
-
-
 class FinanceFactor(FinanceBase, Mixin):
+    """
+    主要财务指标
+    """
     @classmethod
     def important_cols(cls):
         return [

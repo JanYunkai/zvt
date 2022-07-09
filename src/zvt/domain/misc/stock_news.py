@@ -9,6 +9,9 @@ NewsBase = declarative_base()
 
 
 class StockNews(NewsBase, Mixin):
+    """
+    股票新闻
+    """
     __tablename__ = "stock_news"
 
     #: 新闻标题

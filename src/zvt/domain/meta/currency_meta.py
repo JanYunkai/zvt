@@ -10,6 +10,9 @@ CurrencyMetaBase = declarative_base()
 
 @register_entity(entity_type="currency")
 class Currency(CurrencyMetaBase, TradableEntity):
+    """
+    货币
+    """
     __tablename__ = "currency"
 
 

@@ -12,11 +12,17 @@ StockMetaBase = declarative_base()
 #: 个股
 @register_entity(entity_type="stock")
 class Stock(StockMetaBase, TradableEntity):
+    """
+    个股
+    """
     __tablename__ = "stock"
 
 
 #: 个股详情
 class StockDetail(StockMetaBase, TradableEntity):
+    """
+    个股详情
+    """
     __tablename__ = "stock_detail"
 
     #: 所属行业

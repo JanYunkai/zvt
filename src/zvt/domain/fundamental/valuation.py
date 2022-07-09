@@ -9,6 +9,9 @@ ValuationBase = declarative_base()
 
 
 class StockValuation(ValuationBase, Mixin):
+    """
+    股票估值
+    """
     __tablename__ = "stock_valuation"
 
     code = Column(String(length=32))
@@ -36,6 +39,9 @@ class StockValuation(ValuationBase, Mixin):
 
 
 class EtfValuation(ValuationBase, Mixin):
+    """
+    ETF估值
+    """
     __tablename__ = "etf_valuation"
 
     code = Column(String(length=32))

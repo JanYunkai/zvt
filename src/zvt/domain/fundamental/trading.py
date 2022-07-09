@@ -9,6 +9,9 @@ TradingBase = declarative_base()
 
 
 class ManagerTrading(TradingBase, Mixin):
+    """
+    经理交易
+    """
     __tablename__ = "manager_trading"
 
     provider = Column(String(length=32))
@@ -35,6 +38,9 @@ class ManagerTrading(TradingBase, Mixin):
 
 
 class HolderTrading(TradingBase, Mixin):
+    """
+    持有人交易
+    """
     __tablename__ = "holder_trading"
 
     provider = Column(String(length=32))
@@ -51,6 +57,9 @@ class HolderTrading(TradingBase, Mixin):
 
 
 class BigDealTrading(TradingBase, Mixin):
+    """
+    大额交易
+    """
     __tablename__ = "big_deal_trading"
 
     provider = Column(String(length=32))
@@ -69,6 +78,9 @@ class BigDealTrading(TradingBase, Mixin):
 
 
 class MarginTrading(TradingBase, Mixin):
+    """
+    保证金交易
+    """
     __tablename__ = "margin_trading"
     code = Column(String(length=32))
 
@@ -89,6 +101,9 @@ class MarginTrading(TradingBase, Mixin):
 
 
 class DragonAndTiger(TradingBase, Mixin):
+    """
+    龙虎榜
+    """
     __tablename__ = "dragon_and_tiger"
 
     code = Column(String(length=32))

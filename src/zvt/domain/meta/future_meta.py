@@ -9,6 +9,9 @@ FutureMetaBase = declarative_base()
 
 @register_entity(entity_type="future")
 class Future(FutureMetaBase, TradableEntity):
+    """
+    期货
+    """
     __tablename__ = "future"
 
 

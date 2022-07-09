@@ -12,6 +12,9 @@ IndexusMetaBase = declarative_base()
 #: 美股指数
 @register_entity(entity_type="indexus")
 class Indexus(IndexusMetaBase, Portfolio):
+    """
+    美股指数
+    """
     __tablename__ = "index"
 
     #: 发布商

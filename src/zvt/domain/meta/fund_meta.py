@@ -12,6 +12,9 @@ FundMetaBase = declarative_base()
 #: 个股
 @register_entity(entity_type="fund")
 class Fund(FundMetaBase, Portfolio):
+    """
+    基金
+    """
     __tablename__ = "fund"
     #: 基金管理人
     advisor = Column(String(length=100))
@@ -51,6 +54,9 @@ class Fund(FundMetaBase, Portfolio):
 
 
 class FundStock(FundMetaBase, PortfolioStockHistory):
+    """
+    基金持有股票
+    """
     __tablename__ = "fund_stock"
 
 

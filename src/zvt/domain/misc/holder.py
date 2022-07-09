@@ -9,6 +9,9 @@ HolderBase = declarative_base()
 
 
 class HkHolder(HolderBase, Mixin):
+    """
+    港股持股
+    """
     __tablename__ = "hk_holder"
     #: 股票代码
     code = Column(String(length=32))
@@ -27,6 +30,9 @@ class HkHolder(HolderBase, Mixin):
 
 
 class TopTenTradableHolder(HolderBase, Mixin):
+    """
+    十大可交易持有人
+    """
     __tablename__ = "top_ten_tradable_holder"
 
     provider = Column(String(length=32))
@@ -50,6 +56,9 @@ class TopTenTradableHolder(HolderBase, Mixin):
 
 
 class TopTenHolder(HolderBase, Mixin):
+    """
+    前10大持有人
+    """
     __tablename__ = "top_ten_holder"
 
     provider = Column(String(length=32))
@@ -73,6 +82,9 @@ class TopTenHolder(HolderBase, Mixin):
 
 
 class InstitutionalInvestorHolder(HolderBase, Mixin):
+    """
+    投资机构
+    """
     __tablename__ = "institutional_investor_holder"
 
     provider = Column(String(length=32))

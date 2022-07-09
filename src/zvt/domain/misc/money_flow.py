@@ -9,9 +9,10 @@ MoneyFlowBase = declarative_base()
 
 
 #: 板块资金流向
-
-
 class BlockMoneyFlow(MoneyFlowBase, Mixin):
+    """
+    版块资金流向
+    """
     __tablename__ = "block_money_flow"
 
     code = Column(String(length=32))
@@ -46,6 +47,9 @@ class BlockMoneyFlow(MoneyFlowBase, Mixin):
 
 
 class StockMoneyFlow(MoneyFlowBase, Mixin):
+    """
+    股票资金流向
+    """
     __tablename__ = "stock_money_flow"
 
     code = Column(String(length=32))
@@ -80,6 +84,9 @@ class StockMoneyFlow(MoneyFlowBase, Mixin):
 
 
 class IndexMoneyFlow(MoneyFlowBase, Mixin):
+    """
+    指数资金流向
+    """
     __tablename__ = "index_money_flow"
 
     code = Column(String(length=32))

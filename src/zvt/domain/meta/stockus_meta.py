@@ -11,6 +11,9 @@ StockusMetaBase = declarative_base()
 #: 美股
 @register_entity(entity_type="stockus")
 class Stockus(StockusMetaBase, TradableEntity):
+    """
+    美股
+    """
     __tablename__ = "stockus"
 
 

@@ -9,6 +9,9 @@ DividendFinancingBase = declarative_base()
 
 
 class DividendFinancing(DividendFinancingBase, Mixin):
+    """
+    股息融资
+    """
     __tablename__ = "dividend_financing"
 
     provider = Column(String(length=32))

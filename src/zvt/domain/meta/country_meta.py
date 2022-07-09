@@ -11,6 +11,9 @@ CountryMetaBase = declarative_base()
 
 @register_entity(entity_type="country")
 class Country(CountryMetaBase, TradableEntity):
+    """
+    国家
+    """
     __tablename__ = "country"
 
     #: 区域

@@ -9,9 +9,10 @@ OverallBase = declarative_base()
 
 
 #: 市场整体估值
-
-
 class StockSummary(OverallBase, Mixin):
+    """
+    市场整体估值
+    """
     __tablename__ = "stock_summary"
 
     provider = Column(String(length=32))
@@ -31,6 +32,9 @@ class StockSummary(OverallBase, Mixin):
 
 
 class MarginTradingSummary(OverallBase, Mixin):
+    """
+    融资融券概况
+    """
     __tablename__ = "margin_trading_summary"
     provider = Column(String(length=32))
     code = Column(String(length=32))
@@ -54,6 +58,9 @@ class MarginTradingSummary(OverallBase, Mixin):
 
 
 class CrossMarketSummary(OverallBase, Mixin):
+    """
+    北向/南向成交概况
+    """
     __tablename__ = "cross_market_summary"
     provider = Column(String(length=32))
     code = Column(String(length=32))

@@ -13,6 +13,9 @@ EtfMetaBase = declarative_base()
 #: etf
 @register_entity(entity_type="etf")
 class Etf(EtfMetaBase, Portfolio):
+    """
+    Exchange Traded Fund 交易型开放式指数基金
+    """
     __tablename__ = "etf"
     category = Column(String(length=64))
 
@@ -24,6 +27,9 @@ class Etf(EtfMetaBase, Portfolio):
 
 
 class EtfStock(EtfMetaBase, PortfolioStockHistory):
+    """
+    Exchange Traded Fund 交易型开放式指数基金持有股票
+    """
     __tablename__ = "etf_stock"
 
 

@@ -11,6 +11,9 @@ StockhkMetaBase = declarative_base()
 #: 港股
 @register_entity(entity_type="stockhk")
 class Stockhk(StockhkMetaBase, TradableEntity):
+    """
+    港股
+    """
     __tablename__ = "stockhk"
     #: 是否属于港股通
     south = Column(Boolean)
