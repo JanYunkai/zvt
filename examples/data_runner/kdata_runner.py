@@ -6,9 +6,11 @@ import os
 import sys
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../../src")))
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../../examples")))
 
-from examples.recorder_utils import run_data_recorder
-from examples.report_utils import inform
+from recorder_utils import run_data_recorder
+from report_utils import inform
+
 from zvt import init_log
 from zvt.domain import Stock, Stock1dHfqKdata, Stockhk, Stockhk1dHfqKdata, Block, Block1dKdata, BlockCategory
 from zvt.informer import EmailInformer

@@ -3,6 +3,12 @@ import logging
 
 from apscheduler.schedulers.background import BackgroundScheduler
 
+import os
+import sys
+
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../../src")))
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../../examples")))
+
 from zvt.domain import StockTradeDay
 
 logger = logging.getLogger(__name__)
@@ -14,7 +20,7 @@ import logging
 
 from apscheduler.schedulers.background import BackgroundScheduler
 
-from examples.recorder_utils import run_data_recorder
+from recorder_utils import run_data_recorder
 from zvt import init_log
 from zvt.domain import Stock, Stock1dHfqKdata
 

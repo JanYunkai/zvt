@@ -517,7 +517,10 @@ class Trader(object):
 
 
 class StockTrader(Trader):
-    entity_schema = Stock
+    """
+    股票交易
+    """
+    entity_schema = Stock    
 
     def __init__(
         self,

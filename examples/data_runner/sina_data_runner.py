@@ -7,8 +7,9 @@ import os
 import sys
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../../src")))
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../../examples")))
 
-from examples.recorder_utils import run_data_recorder
+from recorder_utils import run_data_recorder
 from zvt import init_log, zvt_config
 from zvt.domain import *
 from zvt.informer.informer import EmailInformer

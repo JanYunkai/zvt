@@ -2,8 +2,13 @@
 import logging
 
 from apscheduler.schedulers.background import BackgroundScheduler
+import os
+import sys
 
-from examples.recorder_utils import run_data_recorder
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../../src")))
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../../examples")))
+
+from recorder_utils import run_data_recorder
 from zvt import init_log
 from zvt.domain import Fund, FundStock, StockValuation
 
