@@ -13,11 +13,6 @@ from googleapiclient.http import httplib2
 SCOPES = ['https://www.googleapis.com/auth/documents.readonly']
 DOCUMENT_ID = "1lhZX6PHm0smsoOWpvY3tVWIGWjYYuLhWQKv_PGQSTUk"
 
-
-document = service.documents().get(documentId=DOCUMENT_ID).execute()
-
-print(document)
-
 class GoogleDocs:
 
     def __init__(self, apikey, proxy_ip=None, proxy_port=None):

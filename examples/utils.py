@@ -20,3 +20,4 @@ def add_to_eastmoney(codes, group, entity_type="stock", over_write=True):
 
         for code in codes:
             eastmoneypy.add_to_group(code=code, entity_type=entity_type, group_name=group)
+
