@@ -1,4 +1,9 @@
 # -*- coding: utf-8 -*-
+import os
+import sys
+
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../../src")))
+
 from zvt.domain import BalanceSheet
 from zvt.factors.fundamental import GoodCompanyFactor
 from zvt.factors.target_selector import TargetSelector
@@ -34,6 +39,6 @@ class FundamentalSelector(TargetSelector):
 
 
 if __name__ == "__main__":
-    selector: TargetSelector = FundamentalSelector(start_timestamp="2015-01-01", end_timestamp="2019-06-30")
+    selector: TargetSelector = FundamentalSelector(start_timestamp="2021-01-01", end_timestamp="2022-07-20")
     selector.run()
-    print(selector.get_targets("2019-06-30"))
+    print(selector.get_targets("2022-07-20"))

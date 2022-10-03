@@ -26,6 +26,10 @@ class WindowMethod(enum.Enum):
 
 
 class TopType(enum.Enum):
+    """
+    positive 涨
+    negative 跌
+    """
     positive = "positive"
     negative = "negative"
 

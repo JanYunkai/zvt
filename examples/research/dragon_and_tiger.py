@@ -1,4 +1,11 @@
 # -*- coding: utf-8 -*-
+
+import os
+import sys
+
+
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../../src")))
+
 from zvt.api.selector import get_big_players, get_player_success_rate
 from zvt.domain import DragonAndTiger
 from zvt.utils import next_date, current_date

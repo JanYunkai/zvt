@@ -505,6 +505,9 @@ class PortfolioStock(Mixin):
 
 #: 支持时间变化,报告期标的调整
 class PortfolioStockHistory(PortfolioStock):
+    """
+    股票投资组合历史
+    """
     #: 报告期,season1,half_year,season3,year
     report_period = Column(String(length=32))
     #: 3-31,6-30,9-30,12-31
@@ -514,7 +517,7 @@ class PortfolioStockHistory(PortfolioStock):
     proportion = Column(Float)
     #: 持有股票的数量
     shares = Column(Float)
-    #: 持有股票的市值
+    #: 持有股票的市值，单位
     market_cap = Column(Float)
 
 

@@ -19,23 +19,23 @@ logger = logging.getLogger("__name__")
 
 
 def inform(
-    action: EmailInformer, entity_ids, target_date, title, entity_provider, entity_type, em_group, em_group_over_write
+    action: EmailInformer, entity_ids, target_date, title, entity_provider, 
+    entity_type, em_group, em_group_over_write, start_date=None
 ):
     msg = "no targets"
     if entity_ids:
         entities = get_entities(
             provider=entity_provider, entity_type=entity_type, entity_ids=entity_ids, return_type="domain"
         )
-        if em_group:
-            try:
-                codes = [entity.code for entity in entities]
-                add_to_eastmoney(codes=codes, entity_type=entity_type, group=em_group, over_write=em_group_over_write)
-            except Exception as e:
-                action.send_message(
-                    f"{target_date} {title} error",
-                    f"{target_date} {title} error: {e}",
-                )
-
+        codes = [entity.code for entity in entities]
+        try:
+            add_to_eastmoney(codes=codes, entity_type=entity_type, group=em_group, over_write=em_group_over_write)
+        except Exception as e:
+            action.send_message(
+                f"{target_date} {title} error",
+                f"{target_date} {title} add_to_eastmoney error: {e}",
+            )
+        
         infos = [f"{entity.name}({entity.code})" for entity in entities]
         msg = "\n".join(infos) + "\n"
     logger.info(msg)
@@ -166,6 +166,9 @@ def report_top_entities(
     em_group_over_write=True,
     return_type=TopType.positive,
 ):
+    """
+
+    """
     if periods is None:
         periods = [7, 30, 365]
     if not adjust_type:

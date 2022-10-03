@@ -9,8 +9,7 @@ from email.mime.text import MIMEText
 
 import requests
 
-from zvt import zvt_config
-
+from zvt import zvt_config 
 
 class Informer(object):
     logger = logging.getLogger(__name__)
