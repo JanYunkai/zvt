@@ -62,6 +62,12 @@ def report_targets(
 
     while error_count <= 10:
         email_action = EmailInformer()
+        google_docs = GoogleDocs(
+            apikey = zvt_config['google_api_key'],
+            documentId = zvt_config['google_document_id'], 
+            proxy_ip = zvt_config['proxy']['host'], 
+            proxy_por = zvt_config['proxy']['port'],
+        )
 
         try:
             if not adjust_type:
