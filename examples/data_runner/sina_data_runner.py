@@ -3,11 +3,6 @@ import logging
 import time
 
 from apscheduler.schedulers.background import BackgroundScheduler
-import os
-import sys
-
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../../src")))
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../../examples")))
 
 from recorder_utils import run_data_recorder
 from zvt import init_log, zvt_config

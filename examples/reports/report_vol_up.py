@@ -3,11 +3,6 @@ import logging
 
 from apscheduler.schedulers.background import BackgroundScheduler
 
-import os
-import sys
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../../src")))
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../../examples")))
-
 from report_utils import report_targets
 from zvt import init_log
 from zvt.api.kdata import get_latest_kdata_date

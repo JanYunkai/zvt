@@ -4,11 +4,6 @@ import time
 
 from apscheduler.schedulers.background import BackgroundScheduler
 
-import os
-import sys
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../../src")))
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../../examples")))
-
 from factors.fundamental_selector import FundamentalSelector
 from reports import get_subscriber_emails, stocks_with_info
 from utils import add_to_eastmoney

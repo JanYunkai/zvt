@@ -6,7 +6,6 @@ from typing import Type
 from zvt import zvt_config
 from zvt.contract import Mixin
 from zvt.informer import EmailInformer
-from zvt.recorders.google.api import GoogleDocs 
 
 logger = logging.getLogger("__name__")
 

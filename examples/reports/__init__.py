@@ -6,11 +6,6 @@ from typing import List
 
 from sqlalchemy import or_
 
-import os
-import sys
-
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../../src")))
-
 from zvt.api import float_to_pct_str
 from zvt.contract import ActorType
 from zvt.domain import FinanceFactor, BalanceSheet, IncomeStatement, Stock, StockActorSummary

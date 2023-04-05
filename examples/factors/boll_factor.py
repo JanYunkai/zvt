@@ -3,10 +3,6 @@ from typing import Optional, List
 
 import pandas as pd
 from ta.volatility import BollingerBands
-import os
-import sys
-
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../../src")))
 
 from zvt.contract.factor import *
 from zvt.factors import TechnicalFactor
