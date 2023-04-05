@@ -7,8 +7,9 @@ from utils import add_to_eastmoney
 from zvt import zvt_config
 from zvt.api import get_top_volume_entities, get_top_performance_entities, TopType
 from zvt.api.kdata import get_latest_kdata_date, get_kdata_schema, default_adjust_type
+from zvt.api.selector import get_entity_ids_by_filter
 from zvt.contract import IntervalLevel
-from zvt.contract.api import get_entities, get_entity_schema, get_entity_ids
+from zvt.contract.api import get_entities, get_entity_schema
 from zvt.contract.factor import Factor
 from zvt.factors import TargetSelector, SelectMode
 from zvt.informer import EmailInformer
@@ -48,6 +49,7 @@ def report_targets(
     data_provider,
     title,
     entity_type="stock",
+    informer: EmailInformer = None,
     em_group=None,
     em_group_over_write=True,
     filter_by_volume=True,
@@ -61,14 +63,6 @@ def report_targets(
     error_count = 0
 
     while error_count <= 10:
-        email_action = EmailInformer()
-        google_docs = GoogleDocs(
-            apikey = zvt_config['google_api_key'],
-            documentId = zvt_config['google_document_id'], 
-            proxy_ip = zvt_config['proxy']['host'], 
-            proxy_por = zvt_config['proxy']['port'],
-        )
-
         try:
             if not adjust_type:
                 adjust_type = default_adjust_type(entity_type=entity_type)
@@ -136,7 +130,7 @@ def report_targets(
             long_stocks = my_selector.get_open_long_targets(timestamp=target_date)
 
             inform(
-                email_action,
+                informer,
                 entity_ids=long_stocks,
                 target_date=target_date,
                 title=title,
@@ -152,7 +146,7 @@ def report_targets(
             time.sleep(60 * 3)
             error_count = error_count + 1
             if error_count == 10:
-                email_action.send_message(
+                informer.send_message(
                     zvt_config["email_username"],
                     f"report {entity_type}{factor_cls.__name__} error",
                     f"report {entity_type}{factor_cls.__name__} error: {e}",
@@ -164,117 +158,127 @@ def report_top_entities(
     data_provider,
     periods=None,
     ignore_new_stock=True,
+    ignore_st=True,
+    entity_ids=None,
     entity_type="stock",
     adjust_type=None,
     top_count=30,
     turnover_threshold=100000000,
     turnover_rate_threshold=0.02,
+    informer: EmailInformer = None,
+    em_group=None,
     em_group_over_write=True,
     return_type=TopType.positive,
 ):
-    """
+    error_count = 0
 
-    """
-    if periods is None:
-        periods = [7, 30, 365]
-    if not adjust_type:
-        adjust_type = default_adjust_type(entity_type=entity_type)
-    kdata_schema = get_kdata_schema(entity_type=entity_type, adjust_type=adjust_type)
-    entity_schema = get_entity_schema(entity_type=entity_type)
+    while error_count <= 10:
+        try:
+            if periods is None:
+                periods = [7, 30, 365]
+            if not adjust_type:
+                adjust_type = default_adjust_type(entity_type=entity_type)
+            kdata_schema = get_kdata_schema(entity_type=entity_type, adjust_type=adjust_type)
+            entity_schema = get_entity_schema(entity_type=entity_type)
 
-    target_date = get_latest_kdata_date(provider=data_provider, entity_type=entity_type, adjust_type=adjust_type)
-    email_action = EmailInformer()
+            target_date = get_latest_kdata_date(
+                provider=data_provider, entity_type=entity_type, adjust_type=adjust_type
+            )
 
-    # 至少上市一年
-    filter_entity_ids = []
-    if ignore_new_stock:
-        pre_year = next_date(target_date, -365)
-
-        entity_ids = get_entity_ids(
-            provider=entity_provider, entity_schema=entity_schema, filters=[entity_schema.timestamp <= pre_year]
-        )
-
-        if not entity_ids:
-            msg = f"{entity_type} no entity_ids listed one year"
-            logger.error(msg)
-            email_action.send_message("report_top_stats error", msg)
-            return
-        filter_entity_ids = entity_ids
-
-    filter_turnover_df = kdata_schema.query_data(
-        filters=[
-            kdata_schema.turnover >= turnover_threshold,
-            kdata_schema.turnover_rate >= turnover_rate_threshold,
-        ],
-        provider=data_provider,
-        start_timestamp=target_date,
-        index="entity_id",
-        columns=["entity_id", "code"],
-    )
-    if filter_entity_ids:
-        filter_entity_ids = set(filter_entity_ids) & set(filter_turnover_df.index.tolist())
-    else:
-        filter_entity_ids = filter_turnover_df.index.tolist()
-
-    if not filter_entity_ids:
-        msg = f"{entity_type} no entity_ids selected"
-        logger.error(msg)
-        email_action.send_message("report_top_stats error", msg)
-        return
-
-    logger.info(f"{entity_type} filter_entity_ids size: {len(filter_entity_ids)}")
-    filters = [kdata_schema.entity_id.in_(filter_entity_ids)]
-    for i, period in enumerate(periods):
-        start = next_date(target_date, -period)
-        positive_df, negative_df = get_top_performance_entities(
-            entity_type=entity_type,
-            start_timestamp=start,
-            filters=filters,
-            pct=1,
-            show_name=True,
-            entity_provider=entity_provider,
-            data_provider=data_provider,
-            return_type=return_type,
-        )
-
-        if return_type == TopType.positive:
-            tag = "最靓仔"
-            df = positive_df
-        else:
-            tag = "谁有我惨"
-            df = negative_df
-
-        if i == 0:
-            inform(
-                email_action,
-                entity_ids=df.index[:top_count].tolist(),
+            filter_entity_ids = get_entity_ids_by_filter(
+                provider=entity_provider,
+                ignore_st=ignore_st,
+                ignore_new_stock=ignore_new_stock,
+                entity_schema=entity_schema,
                 target_date=target_date,
-                title=f"{entity_type} {period}日内 {tag}",
+                entity_ids=entity_ids,
+            )
+
+            if not filter_entity_ids:
+                msg = f"{entity_type} no entity_ids selected"
+                logger.error(msg)
+                informer.send_message(zvt_config["email_username"], "report_top_stats error", msg)
+                return
+
+            filter_turnover_df = kdata_schema.query_data(
+                filters=[
+                    kdata_schema.turnover >= turnover_threshold,
+                    kdata_schema.turnover_rate >= turnover_rate_threshold,
+                ],
+                provider=data_provider,
+                start_timestamp=target_date,
+                index="entity_id",
+                columns=["entity_id", "code"],
+            )
+            if filter_entity_ids:
+                filter_entity_ids = set(filter_entity_ids) & set(filter_turnover_df.index.tolist())
+            else:
+                filter_entity_ids = filter_turnover_df.index.tolist()
+
+            if not filter_entity_ids:
+                msg = f"{entity_type} no entity_ids selected"
+                logger.error(msg)
+                informer.send_message(zvt_config["email_username"], "report_top_stats error", msg)
+                return
+
+            logger.info(f"{entity_type} filter_entity_ids size: {len(filter_entity_ids)}")
+            filters = [kdata_schema.entity_id.in_(filter_entity_ids)]
+            selected = []
+            for i, period in enumerate(periods):
+                interval = period
+                if target_date.weekday() + 1 < interval:
+                    interval = interval + 2
+                start = next_date(target_date, -interval)
+                positive_df, negative_df = get_top_performance_entities(
+                    entity_type=entity_type,
+                    start_timestamp=start,
+                    kdata_filters=filters,
+                    pct=1,
+                    show_name=True,
+                    entity_provider=entity_provider,
+                    data_provider=data_provider,
+                    return_type=return_type,
+                )
+
+                if return_type == TopType.positive:
+                    df = positive_df
+                else:
+                    df = negative_df
+                selected = selected + df.index[:top_count].tolist()
+                selected = list(dict.fromkeys(selected))
+
+            inform(
+                informer,
+                entity_ids=selected,
+                target_date=target_date,
+                title=f"{entity_type} {em_group}({len(selected)})",
                 entity_provider=entity_provider,
                 entity_type=entity_type,
-                em_group=tag,
+                em_group=em_group,
                 em_group_over_write=em_group_over_write,
             )
-        else:
-            inform(
-                email_action,
-                entity_ids=df.index[:top_count].tolist(),
-                target_date=target_date,
-                title=f"{entity_type} {period}日内 {tag}",
-                entity_provider=entity_provider,
-                entity_type=entity_type,
-                em_group=tag,
-                em_group_over_write=False,
-            )
+            break
+        except Exception as e:
+            logger.exception("report error:{}".format(e))
+            time.sleep(30)
+            error_count = error_count + 1
 
 
 if __name__ == "__main__":
     report_top_entities(
-        entity_type="stockhk",
+        entity_type="block",
         entity_provider="em",
         data_provider="em",
-        turnover_threshold=0,
-        turnover_rate_threshold=0,
+        top_count=10,
+        periods=[365, 750],
+        ignore_new_stock=False,
+        ignore_st=False,
+        adjust_type=None,
+        turnover_threshold=50000000,
+        turnover_rate_threshold=0.005,
+        em_group=None,
+        em_group_over_write=False,
+        return_type=TopType.negative,
     )
 
 # the __all__ is generated
