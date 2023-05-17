@@ -3,7 +3,7 @@ import logging
 
 from apscheduler.schedulers.background import BackgroundScheduler
 
-from examples.report_utils import report_top_entities
+from report_utils import report_top_entities
 from zvt import init_log
 from zvt.api import TopType
 from zvt.domain import Block, BlockCategory
@@ -32,7 +32,7 @@ def report_top_stocks():
         turnover_rate_threshold=0,
         informer=email_informer,
         em_group="短期最强",
-        em_group_over_write=True,
+        em_group_over_write=False,
         return_type=TopType.positive,
     )
 
@@ -49,7 +49,7 @@ def report_top_stocks():
         turnover_rate_threshold=0,
         informer=email_informer,
         em_group="中期最强",
-        em_group_over_write=True,
+        em_group_over_write=False,
         return_type=TopType.positive,
     )
 
@@ -89,7 +89,7 @@ def report_top_blocks():
         turnover_rate_threshold=0,
         informer=email_informer,
         em_group="最强行业",
-        em_group_over_write=True,
+        em_group_over_write=False,
         return_type=TopType.positive,
         entity_ids=entity_ids,
     )
@@ -110,7 +110,7 @@ def report_top_blocks():
         turnover_rate_threshold=0,
         informer=email_informer,
         em_group="最强概念",
-        em_group_over_write=True,
+        em_group_over_write=False,
         return_type=TopType.positive,
         entity_ids=entity_ids,
     )

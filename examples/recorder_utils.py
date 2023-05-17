@@ -6,6 +6,7 @@ from typing import Type
 from zvt import zvt_config
 from zvt.contract import Mixin
 from zvt.informer import EmailInformer
+from zvt.domain import Stock,Stock1dKdata
 
 logger = logging.getLogger("__name__")
 
@@ -44,6 +45,10 @@ def run_data_recorder(
 
 
 if __name__ == "__main__":
-    run_data_recorder()
+    # run_data_recorder(domain=Stock, data_provider="em", entity_provider="em", force_update=False, entity_ids=["stock_sh_601360"])
+    Stock1dKdata.record_data(code='601360', provider='em')
+    df = Stock1dKdata.query_data(code='601360', provider='em')
+    print(df)
+    # run_data_recorder(entity_ids=["stock_sh_601360"])
 # the __all__ is generated
 __all__ = ["run_data_recorder"]

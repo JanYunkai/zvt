@@ -31,7 +31,7 @@ def report_vol_up():
         em_group="年线股票",
         title="放量突破(半)年线小市值股票",
         entity_type="stock",
-        em_group_over_write=True,
+        em_group_over_write=False,
         filter_by_volume=False,
         adjust_type=AdjustType.hfq,
         start_timestamp="2019-01-01",
