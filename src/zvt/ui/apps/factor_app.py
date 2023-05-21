@@ -20,11 +20,16 @@ from zvt.utils import pd_is_not_null
 
 account_readers = []
 order_readers = []
+# v2
+account_reader_map = {}
+order_reader_map = {}
+
 
 # init the data
 traders: List[TraderInfo] = []
-
 trader_names: List[str] = []
+
+trader_map: dict[str, TraderInfo] = {}
 
 
 def order_type_flag(order_type):
@@ -44,23 +49,28 @@ def order_type_color(order_type):
 def load_traders():
     global traders
     global trader_names
+    global trader_map
 
     traders = get_trader_info(return_type="domain")
     account_readers.clear()
     order_readers.clear()
     for trader in traders:
-        account_readers.append(AccountStatsReader(level=trader.level, trader_names=[trader.trader_name]))
-        order_readers.append(
-            OrderReader(start_timestamp=trader.start_timestamp, level=trader.level, trader_names=[trader.trader_name])
-        )
+        accountStatsReader = AccountStatsReader(level=trader.level, trader_names=[trader.trader_name])
+        account_readers.append(accountStatsReader)
+        account_reader_map[trader.trader_name] = accountStatsReader
+        
+        orderReader = OrderReader(start_timestamp=trader.start_timestamp, level=trader.level, trader_names=[trader.trader_name])
+        order_readers.append(orderReader)
+        order_reader_map[trader.trader_name] = orderReader
 
     trader_names = [item.trader_name for item in traders]
+    trader_map = {item.trader_name: item for item in traders}
 
 
 load_traders()
 
 
-def factor_layout():
+def factor_layout(traderName, entity_provider, entity, entity_type="stock", level="1d", factor="TechnicalFactor"):
     layout = html.Div(
         [
             # controls
@@ -77,7 +87,8 @@ def factor_layout():
                                     dcc.Dropdown(
                                         id="trader-selector",
                                         placeholder="select the trader",
-                                        options=[{"label": item, "value": i} for i, item in enumerate(trader_names)],
+                                        options=[{"label": item, "value": item} for i, item in enumerate(trader_names)],
+                                        value=traderName
                                     ),
                                 ],
                             ),
@@ -93,7 +104,7 @@ def factor_layout():
                                             {"label": name, "value": name}
                                             for name in zvt_context.tradable_schema_map.keys()
                                         ],
-                                        value="stock",
+                                        value=entity_type,
                                         clearable=False,
                                     ),
                                 ],
@@ -103,7 +114,11 @@ def factor_layout():
                                 className="padding-top-bot",
                                 children=[
                                     html.H6("select entity provider:"),
-                                    dcc.Dropdown(id="entity-provider-selector", placeholder="select entity provider"),
+                                    dcc.Dropdown(
+                                        id="entity-provider-selector", 
+                                        placeholder="select entity provider", 
+                                        value=entity_provider
+                                    ),
                                 ],
                             ),
                             # select entity
@@ -111,7 +126,7 @@ def factor_layout():
                                 className="padding-top-bot",
                                 children=[
                                     html.H6("select entity:"),
-                                    dcc.Dropdown(id="entity-selector", placeholder="select entity"),
+                                    dcc.Dropdown(id="entity-selector", placeholder="select entity", value=entity),
                                 ],
                             ),
                             # select levels
@@ -125,7 +140,7 @@ def factor_layout():
                                             {"label": level.name, "value": level.value}
                                             for level in (IntervalLevel.LEVEL_1WEEK, IntervalLevel.LEVEL_1DAY)
                                         ],
-                                        value="1d",
+                                        value=level,
                                         multi=True,
                                     ),
                                 ],
@@ -142,7 +157,7 @@ def factor_layout():
                                             {"label": name, "value": name}
                                             for name in zvt_context.factor_cls_registry.keys()
                                         ],
-                                        value="TechnicalFactor",
+                                        value=factor,
                                     ),
                                 ],
                             ),
@@ -210,22 +225,22 @@ def factor_layout():
         Input("entity-provider-selector", "value"),
     ],
 )
-def update_trader_details(trader_index, entity_type, entity_provider):
-    if trader_index is not None:
+def update_trader_details(trader_name, entity_type, entity_provider):
+    if trader_name is not None:
         # change entity_type options
-        entity_type = traders[trader_index].entity_type
+        entity_type = trader_map[trader_name].entity_type
         if not entity_type:
             entity_type = "stock"
         entity_type_options = [{"label": entity_type, "value": entity_type}]
 
         # account stats
-        account_stats = get_account_stats_figure(account_stats_reader=account_readers[trader_index])
+        account_stats = get_account_stats_figure(account_stats_reader=account_reader_map[trader_name])
 
         providers = zvt_context.tradable_schema_map.get(entity_type).providers
         entity_provider_options = [{"label": name, "value": name} for name in providers]
 
         # entities
-        entity_ids = get_order_securities(trader_name=trader_names[trader_index])
+        entity_ids = get_order_securities(trader_name=trader_name)
         df = get_entities(
             provider=entity_provider,
             entity_type=entity_type,
@@ -284,9 +299,9 @@ def update_column_selector(schema_name):
         Input("levels-selector", "value"),
         Input("schema-column-selector", "value"),
     ],
-    state=[State("trader-selector", "value"), State("data-selector", "value")],
+    [State("trader-selector", "value"), State("data-selector", "value")],
 )
-def update_factor_details(factor, entity_type, entity, levels, columns, trader_index, schema_name):
+def update_factor_details(factor, entity_type, entity, levels, columns, trader_name, schema_name):
     if factor and entity_type and entity and levels:
         sub_df = None
         # add sub graph
@@ -299,8 +314,8 @@ def update_factor_details(factor, entity_type, entity, levels, columns, trader_i
 
         # add trading signals as annotation
         annotation_df = None
-        if trader_index is not None:
-            order_reader = order_readers[trader_index]
+        if trader_name is not None:
+            order_reader = order_reader_map[trader_name]
             annotation_df = order_reader.data_df.copy()
             annotation_df = annotation_df[annotation_df.entity_id == entity].copy()
             if pd_is_not_null(annotation_df):

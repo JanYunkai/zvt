@@ -102,5 +102,5 @@ class MyTrader(StockTrader):
 
 
 if __name__ == "__main__":
-    trader = MyTrader(start_timestamp="2020-01-01", end_timestamp="2022-05-01")
+    trader = MyTrader(start_timestamp="2020-01-01", end_timestamp="2023-05-19")
     trader.run()

@@ -116,7 +116,7 @@ class DragonTigerFactor(TechnicalFactor):
 
 
 if __name__ == "__main__":
-    top_dragon_and_tiger(end_timestamp='2022-09-21')
-    # Stock1dHfqKdata.record_data(entity_id="stock_sz_002561", provider="em")
-    # f = DragonTigerFactor(entity_id="stock_sz_002561", provider="em")
-    # f.draw(show=True)
+    top_dragon_and_tiger(end_timestamp='2023-05-21')
+    Stock1dHfqKdata.record_data(entity_id="stock_sz_002561", provider="em")
+    f = DragonTigerFactor(entity_id="stock_sz_002561", provider="em")
+    f.draw(show=True)

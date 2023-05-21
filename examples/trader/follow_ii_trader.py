@@ -9,6 +9,9 @@ from zvt.utils import pd_is_not_null, is_same_date, to_pd_timestamp
 
 
 class FollowIITrader(StockTrader):
+    """
+    
+    """
     finish_date = None
 
     def on_time(self, timestamp: pd.Timestamp):
@@ -43,13 +46,13 @@ class FollowIITrader(StockTrader):
 
 
 if __name__ == "__main__":
-    code = "600519"
+    code = "300059"
     Stock.record_data(provider="eastmoney")
     Stock1dKdata.record_data(code=code, provider="em")
     StockActorSummary.record_data(code=code, provider="em")
     FollowIITrader(
         start_timestamp="2002-01-01",
-        end_timestamp="2021-01-01",
+        end_timestamp="2023-05-19",
         codes=[code],
         provider="em",
         adjust_type=AdjustType.qfq,

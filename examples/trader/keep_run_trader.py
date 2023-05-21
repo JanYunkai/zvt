@@ -73,7 +73,7 @@ class MultipleLevelTrader(StockTrader):
 
 if __name__ == "__main__":
     start = "2019-01-01"
-    end = "2021-01-01"
+    end = "2023-05-21"
     trader_name = "keep_run_trader"
     clear_trader(trader_name=trader_name)
     for time_interval in split_time_interval(start=start, end=end, interval=40):
